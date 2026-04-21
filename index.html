@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Valmir Jashari — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <script src="theme.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0f12;
+      --surface: #141820;
+      --surface2: #1a2030;
+      --green: #2d6a4f;
+      --green-light: #40916c;
+      --teal: #1b4f72;
+      --teal-light: #2980b9;
+      --accent: #5ab8d4;
+      --text: #e8eaf0;
+      --muted: #8a9bb0;
+      --border: rgba(255,255,255,0.07);
+    }
+
+    /* ── LIGHT THEME ── */
+    [data-theme="light"] {
+      --bg: #f4f5f7;
+      --surface: #ffffff;
+      --surface2: #e9ebee;
+      --green: #c8f0de;
+      --green-light: #40916c;
+      --teal: #c4e4f5;
+      --teal-light: #1a6fa8;
+      --accent: #1a7a9a;
+      --text: #0d0f12;
+      --muted: #5a6478;
+      --border: rgba(0,0,0,0.09);
+    }
+    [data-theme="light"] .hero-banner img {
+      filter: brightness(0.7) saturate(0.8);
+    }
+    [data-theme="light"] .info-card.green p,
+    [data-theme="light"] .info-card.green a,
+    [data-theme="light"] .info-card.green .tag-list li,
+    [data-theme="light"] .info-card.teal p,
+    [data-theme="light"] .info-card.teal a,
+    [data-theme="light"] .info-card.teal .tag-list li {
+      color: rgba(0,0,0,0.72);
+    }
+    [data-theme="light"] .info-card.green .tag-list li::before,
+    [data-theme="light"] .info-card.teal .tag-list li::before {
+      color: rgba(0,0,0,0.35);
+    }
+    [data-theme="light"] .info-card.green h4 { color: #1f6b41; }
+    [data-theme="light"] .info-card.teal h4  { color: #1a6fa8; }
+    [data-theme="light"] .info-card .tag-list li {
+      color: rgba(0,0,0,0.72);
+    }
+    [data-theme="light"] .info-card .tag-list li::before {
+      color: rgba(0,0,0,0.35);
+    }
+    [data-theme="light"] .info-card p {
+      color: rgba(0,0,0,0.65);
+    }
+    /* Theme toggle button — fixed top-right */
+    .theme-btn-fixed {
+      position: fixed;
+      top: 14px;
+      right: 16px;
+      z-index: 300;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 0.9rem;
+      padding: 6px 10px;
+      line-height: 1;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .theme-btn-fixed:hover {
+      background: var(--surface2);
+      border-color: rgba(90,184,212,0.4);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Desktop only: lock to one screen */
+    @media (min-width: 861px) {
+      html, body { height: 100vh; overflow: hidden; }
+    }
+
+    /* ── HERO BANNER ── */
+    .hero-banner {
+      position: relative;
+      height: 120px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .hero-banner img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: brightness(0.45) saturate(0.7);
+    }
+    .hero-banner::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, var(--bg) 100%);
+    }
+
+
+    /* ── SPLIT HEADER ── */
+    .split-header {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 40px 14px;
+      flex-shrink: 0;
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .split-header .bio-label {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 900;
+      color: var(--text);
+      text-align: right;
+      line-height: 1;
+    }
+    .split-header .portfolio-label {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 900;
+      color: var(--text);
+      text-align: left;
+      line-height: 1;
+    }
+    /* The divider sits in the gap between the two columns */
+    .split-header .bio-label::after {
+      content: '';
+      display: inline-block;
+      width: 3px;
+      height: 1em;
+      background: var(--muted);
+      opacity: 0.5;
+      margin-left: 40px;
+      vertical-align: middle;
+    }
+
+    /* ── MAIN GRID ── */
+    .main-grid {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 40px 16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+      flex: 1;
+      min-height: 0;
+    }
+
+    /* ── LEFT PANEL ── */
+    .bio-card {
+      display: flex;
+      gap: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .bio-photo {
+      width: 140px;
+      height: 160px;
+      border-radius: 10px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 2px solid var(--border);
+    }
+    .bio-photo-placeholder {
+      width: 140px;
+      height: 160px;
+      border-radius: 10px;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, var(--teal) 0%, var(--green) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      border: 2px solid var(--border);
+    }
+    .bio-text h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .bio-text p {
+      font-size: 0.9rem;
+      line-height: 1.65;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .bio-text p strong { color: var(--text); font-weight: 500; }
+
+    /* ── CONTACT + TAGS ROW ── */
+    .info-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 0;
+    }
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .info-card.green { background: var(--green); border-color: var(--green-light); }
+    .info-card.teal  { background: var(--teal);  border-color: var(--teal-light); }
+    .info-card h4 {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .info-card.teal h4 { color: #7ec8e3; }
+    .info-card a {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text);
+      text-decoration: none;
+      margin-bottom: 6px;
+      transition: color 0.2s;
+    }
+    .info-card a:hover { color: var(--accent); }
+    .info-card p {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.6;
+      margin-bottom: 4px;
+    }
+    .tag-list { list-style: none; }
+    .tag-list li {
+      font-size: 0.83rem;
+      color: rgba(255,255,255,0.8);
+      padding: 2px 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tag-list li::before {
+      content: '—';
+      color: rgba(255,255,255,0.4);
+      font-size: 0.7rem;
+    }
+
+    /* ── RIGHT PANEL — PROJECTS ── */
+    .projects-panel h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+    .project-list { display: flex; flex-direction: column; gap: 7px; }
+    .project-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 22px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      line-height: 1.3;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-link::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .project-link:hover {
+      background: var(--surface2);
+      border-color: rgba(90,184,212,0.3);
+      transform: translateX(4px);
+    }
+    .project-link:hover::before { opacity: 1; }
+    .project-arrow {
+      color: var(--muted);
+      font-size: 1.1rem;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .project-link:hover .project-arrow {
+      color: var(--accent);
+      transform: translateX(4px);
+    }
+    .project-link--more {
+      font-size: 0.82rem;
+      padding: 7px 18px;
+      color: var(--muted);
+      border-style: dashed;
+    }
+    .project-link--more:hover { color: var(--text); }
+    .project-tag {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-left: auto;
+      margin-right: 16px;
+    }
+
+    /* ── SCROLL MARQUEE ── */
+    .scroll-section {
+      border-top: 1px solid var(--border);
+      overflow: hidden;
+      flex-shrink: 0;
+      margin-top: auto;
+    }
+    .scroll-wrapper {
+      width: 100%;
+      overflow: hidden;
+      padding: 18px 0;
+    }
+    .scroll-track {
+      display: inline-flex;
+      white-space: nowrap;
+      animation: scroll-left 200s linear infinite;
+    }
+    .scroll-wrapper:hover .scroll-track {
+      animation-play-state: paused;
+    }
+    .scroll-gap {
+      display: inline-block;
+      width: 64rem;
+      flex-shrink: 0;
+    }
+    .scroll-text {
+      padding-right: 0;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    @keyframes scroll-left {
+      from { transform: translate3d(0, 0, 0); }
+      to   { transform: translate3d(-50%, 0, 0); }
+    }
+
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .bio-card   { animation: fadeUp 0.6s ease both 0.1s; }
+    .info-row   { animation: fadeUp 0.6s ease both 0.2s; }
+    .projects-panel { animation: fadeUp 0.6s ease both 0.25s; }
+
+
+    /* ── RESPONSIVE — TABLET ── */
+    @media (max-width: 860px) {
+      /* Re-enable scrolling */
+      body { display: block; min-height: 100vh; }
+      .hero-banner { height: 160px; }
+      .scroll-section { margin-top: 0; }
+
+      .split-header { display: none; }
+      .main-grid {
+        grid-template-columns: 1fr;
+        padding: 0 20px 48px;
+        gap: 32px;
+        flex: none;
+      }
+      .info-row { grid-template-columns: 1fr 1fr; }
+      .project-tag { display: none; }
+    }
+
+    /* ── RESPONSIVE — MOBILE ── */
+    @media (max-width: 520px) {
+      .hero-banner { height: 120px; }
+      .bio-card {
+        flex-direction: column;
+        padding: 18px;
+        gap: 16px;
+      }
+      .bio-photo-placeholder {
+        width: 100%;
+        height: 140px;
+        font-size: 2.5rem;
+      }
+      .bio-photo {
+        width: 100%;
+        height: 180px;
+      }
+      .bio-text h2 { font-size: 1.4rem; }
+      .info-row { grid-template-columns: 1fr; }
+      .project-link {
+        padding: 11px 18px;
+        font-size: 0.93rem;
+      }
+      .projects-panel h3 { font-size: 1.3rem; }
+    }
+
+    /* ── MINI PROJECTS MODAL ── */
+    .mini-projects-toggle { cursor: pointer; user-select: none; }
+    .mini-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(6px);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .mini-modal-overlay.open { display: flex; }
+    .mini-modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px;
+      width: 100%;
+      max-width: 1060px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      animation: pageFadeIn 0.25s ease both;
+    }
+    .mini-modal-close {
+      position: absolute;
+      top: 18px; right: 24px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+    .mini-modal-close:hover { color: var(--text); }
+    .mini-modal > h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .mini-project-section {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 28px;
+      margin-bottom: 36px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid var(--border);
+    }
+    .mini-project-section:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+    .mini-project-info { display: flex; flex-direction: column; justify-content: flex-start; }
+    .mini-project-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .mini-project-heading {
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 900;
+      font-size: 1.25rem;
+      color: var(--text);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+    .mini-project-desc {
+      font-size: 0.85rem;
+      line-height: 1.75;
+      color: var(--muted);
+    }
+    .mini-project-desc p { margin-bottom: 10px; }
+    .mini-project-desc p:last-child { margin-bottom: 0; }
+    .mini-project-desc strong { color: var(--text); font-weight: 500; }
+    .mini-project-desc ul {
+      margin: 6px 0 10px 0;
+      padding-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .mini-project-desc ul li { color: var(--muted); }
+    .more-desc {
+      font-size: 0.82rem;
+      line-height: 1.65;
+      color: var(--muted);
+      margin: 6px 0 10px;
+    }
+    .more-desc strong { color: var(--text); font-weight: 500; }
+    .dl-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid rgba(90,184,212,0.3);
+      border-radius: 6px;
+      padding: 5px 12px;
+      margin-bottom: 12px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .dl-link:hover {
+      background: rgba(90,184,212,0.1);
+      border-color: rgba(90,184,212,0.55);
+    }
+    /* ── Suspension compact layout ── */
+    .susp-section { display: block !important; }
+    .susp-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 18px;
+    }
+    .susp-body { display: flex; flex-direction: column; gap: 14px; }
+    .susp-phases {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+    .susp-phase {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .susp-phase-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 7px;
+    }
+    .susp-phase p {
+      font-size: 0.8rem;
+      line-height: 1.65;
+      color: var(--muted);
+      margin: 0;
+    }
+    .susp-section .mini-photo-grid { margin-top: 4px; }
+    .susp-grid { grid-template-columns: repeat(4, 1fr) !important; }
+    .render-wrap {
+      overflow: hidden;
+      border-radius: 10px;
+      width: 100%;
+      height: 100%;
+    }
+    .render-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      scale: 1.28;
+    }
+    .knife-grid {
+      grid-template-columns: 1fr 1fr !important;
+      min-height: 180px;
+    }
+    .mini-section-head {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 14px 0 6px;
+    }
+    .mini-project-specs {
+      display: flex;
+      gap: 20px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    .mini-spec { display: flex; flex-direction: column; gap: 2px; }
+    .mini-spec-val {
+      font-family: Arial, sans-serif;
+      font-weight: 900;
+      font-size: 1rem;
+      color: var(--accent);
+    }
+    .mini-spec-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.5rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .mini-photo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      align-content: start;
+    }
+    .mini-photo-grid img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: contain;
+      background: var(--surface2);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .mini-photo-grid .img-placeholder {
+      aspect-ratio: 4/3;
+      flex: none;
+      height: auto;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 680px) {
+      .mini-modal-overlay { padding: 0; align-items: flex-end; }
+      .mini-modal {
+        padding: 22px 18px 32px;
+        border-radius: 20px 20px 0 0;
+        max-height: 92dvh;
+        width: 100%;
+      }
+      .mini-modal > h2 { font-size: 1.1rem; margin-bottom: 16px; }
+      .mini-project-section { grid-template-columns: 1fr; gap: 14px; }
+      .mini-photo-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .susp-phases { grid-template-columns: 1fr; gap: 10px; }
+      .susp-header { flex-direction: column; gap: 10px; }
+      .knife-grid { grid-template-columns: 1fr 1fr !important; }
+      .susp-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    }
+
+    /* ── PAGE TRANSITIONS ── */
+    @keyframes pageFadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    body { animation: pageFadeIn 0.4s ease both; }
+    body.page-exit {
+      animation: none;
+      opacity: 0;
+      transform: translateY(-6px);
+      transition: opacity 0.28s ease, transform 0.28s ease;
+    }
+
+    /* ── TOUCH: remove hover transform on touch devices ── */
+    @media (hover: none) {
+      .project-link:hover {
+        transform: none;
+        background: var(--surface);
+        border-color: var(--border);
+      }
+      .project-link:active {
+        background: var(--surface2);
+        border-color: rgba(90,184,212,0.3);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <button id="theme-toggle" class="theme-btn-fixed">☀️</button>
+
+  <!-- Hero Banner (replace src with your own landscape photo) -->
+  <div class="hero-banner">
+    <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1400&q=80" alt="Mountain landscape" />
+  </div>
+
+
+
+  <!-- Split Header: Bio over left col, Portfolio over right col -->
+  <div class="split-header">
+    <div class="bio-label">Bio</div>
+    <div class="portfolio-label">Portfolio</div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-grid">
+
+    <!-- LEFT: Bio + Info -->
+    <div id="bio">
+      <div class="bio-card">
+        <img src="portrait.JPG" class="bio-photo" alt="Valmir Jashari" />
+        <div class="bio-text">
+          <h2>Hello, I'm Valmir</h2>
+          <p>I'm a third year <strong>mechanical engineering student</strong> at the University of British Columbia passionate about design and problem-solving.</p>
+          <p>Feel free to explore my work on the right and reach out with any opportunities or questions!</p>
+          <p style="display:flex; align-items:center; gap:8px; margin-top:4px; margin-bottom:0;">
+            <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#4ade80; box-shadow:0 0 5px #4ade80; flex-shrink:0;"></span>
+            <span style="font-family:'Syne',sans-serif; font-size:0.75rem; font-weight:600; letter-spacing:0.06em; color:var(--muted);">Available for Co-op — September to December</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <!-- Contact card -->
+        <div class="info-card green">
+          <h4>Links</h4>
+          <a href="Valmir Jashari-Resume.pdf" target="_blank">📄 Resume</a>
+          <a href="mailto:vjashari@student.ubc.ca">🔔 My Contact</a>
+          <p style="margin-top:8px;">587-394-5653</p>
+          <p>vjashari@student.ubc.ca</p>
+        </div>
+
+        <!-- Qualities card -->
+        <div class="info-card">
+          <h4>Strengths</h4>
+          <ul class="tag-list">
+            <li>Motivated</li>
+            <li>Driven</li>
+            <li>Curious</li>
+          </ul>
+        </div>
+
+        <!-- Interests card -->
+        <div class="info-card teal">
+          <h4>Focus</h4>
+          <ul class="tag-list">
+            <li>Automotive</li>
+            <li>Prototyping</li>
+            <li>Manufacturing</li>
+            <li>Product Design</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Projects -->
+    <div class="projects-panel" id="projects">
+      <h3>My Projects</h3>
+      <div class="project-list">
+
+        <a href="projects/mustang-brake-kit.html" class="project-link">
+          Classic Mustang Brake Conversion Kit
+          <span class="project-arrow">→</span>
+        </a>
+
+        <a href="projects/grimripper.html" class="project-link">
+          GrimRipper.Club
+          <span class="project-arrow">→</span>
+        </a>
+
+        <a href="projects/ubc-tuner.html" class="project-link">
+          UBC Tuner
+          <span class="project-arrow">→</span>
+        </a>
+
+        <div class="project-link mini-projects-toggle" id="miniCooperToggle">
+          Mini Cooper Upgrades
+          <span class="project-arrow">→</span>
+        </div>
+
+        <div class="project-link mini-projects-toggle project-link--more" id="miniToggle">
+          &amp; More
+          <span class="project-arrow">→</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll Marquee -->
+  <div class="scroll-section">
+    <div class="scroll-wrapper">
+      <div class="scroll-track">
+        <span class="scroll-text">"Valmir was always a very strong contributor, often going above and beyond. He took on a leadership role throughout the project during planning meetings with the TA and Instructor. Overall, a very strong teammate and I'd gladly work with him again."</span><span class="scroll-gap"></span><span class="scroll-text">"Widely considered the leader of the group — a large part of our success is attributed to Val's leadership. Despite a busy term, Val consistently put in work managing the team, finding information, developing solutions and satisfaction criteria. I'm very glad to have Val in the group."</span><span class="scroll-gap"></span><span class="scroll-text">"Valmir has done an excellent job keeping the team organized and on track, taking initiative to manage our schedule, book meetings, and lead progress updates. His work on the presentation slides was exceptional — very polished and professional — and recognized by Dr Pete and the TAs for standing out."</span><span class="scroll-gap"></span>
+        <span class="scroll-text">"Valmir was always a very strong contributor, often going above and beyond. He took on a leadership role throughout the project during planning meetings with the TA and Instructor. Overall, a very strong teammate and I'd gladly work with him again."</span><span class="scroll-gap"></span><span class="scroll-text">"Widely considered the leader of the group — a large part of our success is attributed to Val's leadership. Despite a busy term, Val consistently put in work managing the team, finding information, developing solutions and satisfaction criteria. I'm very glad to have Val in the group."</span><span class="scroll-gap"></span><span class="scroll-text">"Valmir has done an excellent job keeping the team organized and on track, taking initiative to manage our schedule, book meetings, and lead progress updates. His work on the presentation slides was exceptional — very polished and professional — and recognized by Dr Pete and the TAs for standing out."</span><span class="scroll-gap"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mini Cooper Modal -->
+  <div class="mini-modal-overlay" id="miniCooperModal">
+    <div class="mini-modal">
+      <button class="mini-modal-close" id="miniCooperClose">×</button>
+      <h2>Mini Cooper Upgrades</h2>
+
+      <div class="mini-project-section susp-section">
+        <div class="susp-header">
+          <div>
+            <div class="mini-project-title">Repair &amp; Restoration</div>
+            <div class="mini-project-heading">Front Suspension Replacement</div>
+          </div>
+          <div class="mini-project-specs">
+            <div class="mini-spec"><span class="mini-spec-val">Bilstein</span><span class="mini-spec-label">Struts</span></div>
+            <div class="mini-spec"><span class="mini-spec-val">2,500 km</span><span class="mini-spec-label">Road Test</span></div>
+            <div class="mini-spec"><span class="mini-spec-val">Solo</span><span class="mini-spec-label">Build</span></div>
+          </div>
+        </div>
+        <div class="susp-body">
+          <div class="susp-phases">
+            <div class="susp-phase">
+              <div class="susp-phase-label">Why</div>
+              <p>Right front strut seal failed, leaking fluid, compromising damping and risking uneven tire wear. Chose DIY over BMW dealer to learn the system and hand-pick quality components.</p>
+            </div>
+            <div class="susp-phase">
+              <div class="susp-phase-label">Process</div>
+              <p>Lifted on jack stands, removed wheel, disconnected brake line and ABS wire, unbolted strut-to-knuckle and tower mount. Compressed coil spring safely and swapped to new Bilstein, reusing the OEM spring for factory ride height.</p>
+            </div>
+            <div class="susp-phase">
+              <div class="susp-phase-label">Result</div>
+              <p>Validated on a Lethbridge → Whistler road trip through Montana, Idaho, and Washington. Noticeably better damping across highways and mountain passes, with no vibrations and no instability.</p>
+            </div>
+          </div>
+          <div class="mini-photo-grid susp-grid">
+            <img src="images/susp-1.jpg" alt="Suspension work" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+            <img src="images/susp-2.jpg" alt="Suspension work" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+            <img src="images/susp-3.jpg" alt="Suspension work" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+            <img src="images/susp-5.jpg" alt="Suspension work" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+            <img src="images/susp-7.jpg" alt="Suspension work" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+            <img src="images/Mtrainier.JPEG" alt="Mount Rainier during road trip validation drive" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+          </div>
+        </div>
+      </div>
+
+      <div class="mini-project-section susp-section">
+        <div class="susp-header">
+          <div>
+            <div class="mini-project-title">Interior Repair</div>
+            <div class="mini-project-heading">Door Handle Disassembly</div>
+          </div>
+          <div class="mini-project-specs">
+            <div class="mini-spec"><span class="mini-spec-val">0</span><span class="mini-spec-label">Broken Clips</span></div>
+            <div class="mini-spec"><span class="mini-spec-val">No Parts</span><span class="mini-spec-label">Needed</span></div>
+            <div class="mini-spec"><span class="mini-spec-val">Solo</span><span class="mini-spec-label">Build</span></div>
+          </div>
+        </div>
+        <div class="susp-body">
+          <div class="susp-phases">
+            <div class="susp-phase">
+              <div class="susp-phase-label">Why</div>
+              <p>Interior door handle stopped functioning. Rather than replacing the assembly, I diagnosed the root cause — a failed cable clip and incorrect routing — to attempt a no-parts repair.</p>
+            </div>
+            <div class="susp-phase">
+              <div class="susp-phase-label">Process</div>
+              <p>Carefully removed all door trim without breaking clips, fully disassembled the handle mechanism, identified the failed cable routing and clip seat, and corrected the assembly.</p>
+            </div>
+            <div class="susp-phase">
+              <div class="susp-phase-label">Result</div>
+              <p>Handle restored to full function with zero new parts required and zero broken clips on reassembly. Clean repair done entirely through methodical disassembly and diagnosis.</p>
+            </div>
+          </div>
+          <div class="mini-photo-grid susp-grid">
+            <img src="images/door-1.jpg" alt="Door panel disassembly" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+            <img src="images/door-2.jpg" alt="Door handle mechanism" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+            <img src="images/door-3.jpg" alt="Door handle repair" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+            <img src="images/door-4.jpg" alt="Door handle repair" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+            <img src="images/door-5.jpg" alt="Door handle repair" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+            <img src="images/door-6.jpg" alt="Door handle exterior" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mini Projects Modal -->
+  <div class="mini-modal-overlay" id="miniModal">
+    <div class="mini-modal">
+      <button class="mini-modal-close" id="miniClose">×</button>
+      <h2>Mini Projects</h2>
+
+      <div class="mini-project-section">
+        <div>
+          <div class="mini-project-title">Folding Knife Prototype</div>
+          <p class="more-desc">Designed and modelled a folding knife from scratch as a manufacturing class project. First exposure to GD&amp;T — produced a full drawing package with proper tolerancing and callouts for machined fabrication.</p>
+          <a href="files/knife-drawing-final.pdf" download class="dl-link">↓ Manufacturing Drawing (PDF)</a>
+        </div>
+        <div class="mini-photo-grid knife-grid">
+          <img src="images/knife-photo-2.png" alt="Folding knife CAD render" style="width:100%;height:100%;object-fit:cover;object-position:center 60%;border-radius:10px;">
+          <div style="width:100%;height:100%;overflow:hidden;border-radius:10px;position:relative;">
+            <img src="images/knife-photo-1.jpg" alt="Folding knife prototype" style="position:absolute;top:50%;left:50%;width:100%;height:100%;object-fit:contain;transform:translate(-50%,-50%) rotate(-90deg) scale(1.6);">
+          </div>
+        </div>
+      </div>
+
+      <div class="mini-project-section">
+        <div>
+          <div class="mini-project-title">Stretch.</div>
+          <p class="more-desc">A shoe stretcher designed to widen tight footwear. Modelled to fit inside the shoe and apply gradual lateral force to soften and reshape the material.</p>
+        </div>
+        <div class="mini-photo-grid">
+          <img src="images/stretch-1.png" alt="Stretch project" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+          <div class="render-wrap"><img src="images/stretch-2.png" alt="Stretch project"></div>
+          <div class="img-placeholder"><span class="icon">🖼</span><span>Add photo</span></div>
+        </div>
+      </div>
+
+      <div class="mini-project-section">
+        <div>
+          <div class="mini-project-title">Stirling Engine</div>
+          <p class="more-desc">Class project to design and build a functional Stirling engine from scratch. Placed <strong>2nd in top speed</strong> out of the full cohort during the final run-off.</p>
+        </div>
+        <div class="mini-photo-grid">
+          <div class="render-wrap"><img src="images/stirling-render.png" alt="Stirling Engine CAD render"></div>
+          <img src="images/stirling-3.jpg" alt="Stirling Engine" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+          <img src="images/stirling-2.jpg" alt="Stirling Engine" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+        </div>
+      </div>
+
+      <div class="mini-project-section">
+        <div>
+          <div class="mini-project-title">Microsoft Stylus Pen — Recap</div>
+          <p class="more-desc">Replacement pen cap modelled to tight tolerance after measuring the original with calipers. Printed and fitted with no modifications needed.</p>
+        </div>
+        <div class="mini-photo-grid">
+          <div class="render-wrap"><img src="images/stylus-render.png" alt="Stylus pen cap render"></div>
+          <img src="images/stylus-1.jpg" alt="Stylus pen cap reprint" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+          <img src="images/stylus-2.jpg" alt="Stylus pen cap reprint" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+    // Page transitions
+    document.querySelectorAll('.project-link').forEach(link => {
+      link.addEventListener('click', e => {
+        const href = link.getAttribute('href');
+        if (!href || href.startsWith('#')) return;
+        e.preventDefault();
+        document.body.classList.add('page-exit');
+        setTimeout(() => { window.location.href = href; }, 280);
+      });
+    });
+
+    // Mini Projects modal
+    const miniToggle = document.getElementById('miniToggle');
+    const miniModal  = document.getElementById('miniModal');
+    const miniClose  = document.getElementById('miniClose');
+    miniToggle.addEventListener('click', () => miniModal.classList.add('open'));
+    miniClose.addEventListener('click',  () => miniModal.classList.remove('open'));
+    miniModal.addEventListener('click', e => { if (e.target === miniModal) miniModal.classList.remove('open'); });
+
+    // Mini Cooper modal
+    const miniCooperToggle = document.getElementById('miniCooperToggle');
+    const miniCooperModal  = document.getElementById('miniCooperModal');
+    const miniCooperClose  = document.getElementById('miniCooperClose');
+    miniCooperToggle.addEventListener('click', () => miniCooperModal.classList.add('open'));
+    miniCooperClose.addEventListener('click',  () => miniCooperModal.classList.remove('open'));
+    miniCooperModal.addEventListener('click', e => { if (e.target === miniCooperModal) miniCooperModal.classList.remove('open'); });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        miniModal.classList.remove('open');
+        miniCooperModal.classList.remove('open');
+      }
+    });
+  </script>
+
+
+</body>
+</html>
