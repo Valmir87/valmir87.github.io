@@ -488,7 +488,7 @@
       .meta-value { font-size: 0.72rem; }
 
       /* Stacked slides — text scrolls, image fixed */
-      .slide { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); overflow: hidden; }
+      .slide { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1.35fr) minmax(0, 0.85fr); overflow: hidden; }
       .slide-text {
         border-right: none;
         border-bottom: 1px solid var(--border);
@@ -542,10 +542,10 @@
 
       /* Minimal footer strip */
       .bottom-strip { grid-template-columns: repeat(4, 1fr); }
-      .spec-item { padding: 6px 10px; border-right: 1px solid var(--border); }
+      .spec-item { padding: 3px 6px; border-right: 1px solid var(--border); }
       .spec-item:last-child { border-right: none; }
-      .spec-value { font-size: 0.9rem; }
-      .spec-label { font-size: 0.5rem; letter-spacing: 0.06em; }
+      .spec-value { font-size: 0.68rem; margin-bottom: 0; }
+      .spec-label { font-size: 0.42rem; letter-spacing: 0.04em; line-height: 1.2; }
       .back-btn-fixed { font-size: 0.6rem; padding: 8px 12px; }
     }
   </style>

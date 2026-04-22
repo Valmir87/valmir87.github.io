@@ -501,7 +501,7 @@
       /* Each slide stacks text on top, image below */
       .slide {
         grid-template-columns: 1fr;
-        grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-rows: minmax(0, 1.35fr) minmax(0, 0.85fr);
         overflow: hidden;
       }
       .slide-text {
@@ -529,11 +529,12 @@
       .dot { width: 8px; }
       .dot.active { height: 22px; }
 
-      /* Bottom strip — 2 columns on mobile */
-      .bottom-strip { grid-template-columns: 1fr 1fr; }
-      .spec-item:nth-child(2) { border-right: none; }
-      .spec-item { padding: 10px 14px; }
-      .spec-value { font-size: 1.1rem; }
+      /* Bottom strip — compact on mobile */
+      .bottom-strip { grid-template-columns: repeat(4, 1fr); }
+      .spec-item { padding: 3px 6px; border-right: 1px solid var(--border); }
+      .spec-item:last-child { border-right: none; }
+      .spec-value { font-size: 0.68rem; margin-bottom: 0; }
+      .spec-label { font-size: 0.42rem; letter-spacing: 0.04em; line-height: 1.2; }
 
       /* Back button — smaller on mobile */
       .back-btn-fixed { font-size: 0.65rem; padding: 11px 16px; }
