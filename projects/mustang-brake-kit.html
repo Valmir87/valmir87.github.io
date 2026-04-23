@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Classic Mustang disc brake conversion kit — design, FEA, GD&T, and prototype build by Valmir Jashari."/>
+  <meta name="author" content="Valmir Jashari"/>
+  <meta name="referrer" content="strict-origin-when-cross-origin"/>
   <title>Classic Mustang Brake Conversion Kit — Valmir Jashari</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
   <script src="../theme.js"></script>
@@ -637,7 +640,7 @@
           <div class="slide-heading">Adapter system &amp; caliper bracket</div>
           <div class="slide-body">
             <p>With an accurate spindle model in SolidWorks, I moved on to the adapter system. I worked through several iterations to land on a clean offset alignment between the spindle and the rotor.</p>
-            <p>I designed the caliper bracket to wrap cleanly around the existing spindle geometry. Under braking, the tangential reaction force from the rotor transfers into the caliper mount as <strong>shear on the mounting bolts</strong> with a moment that puts sections of the bracket into local tension and compression — the design held a <strong>12+ safety factor against yield</strong> at the caliper mount under this load case. At the hub-to-rotor interface, braking torque is resisted by <strong>shear on the wheel studs</strong> (clamping preload from the lug nuts transmits most of the load through face friction, with the studs backing it up), holding a <strong>6+ safety factor</strong>.</p>
+            <p>I designed the caliper bracket to wrap cleanly around the existing spindle geometry. Under braking, the rotor's tangential reaction loads the mounting bolts in <strong>shear</strong> with a moment putting the bracket into local tension and compression, holding a <strong>12+ safety factor against yield</strong>. At the hub-to-rotor interface, braking torque is carried primarily by face friction from the lug-nut preload, with the wheel studs backing it up in <strong>shear</strong> at a <strong>6+ safety factor</strong>.</p>
           </div>
         </div>
         <div class="slide-image">
@@ -685,6 +688,9 @@
             <div class="img-carousel-slide drawing-slide" data-caption="Brake Hub · GD&amp;T">
               <img src="../images/mustang-drawing-hub.png" alt="Brake hub GD&T drawing detail">
             </div>
+            <div class="img-carousel-slide drawing-slide" data-caption="Hub Internals · Cutaway">
+              <img src="../images/mustang-hub-internals.png" alt="Hub internals cross-section">
+            </div>
             <div class="img-carousel-slide">
               <img src="../images/mustang-prototype-desk.jpg" alt="Prototype parts">
             </div>
@@ -699,6 +705,7 @@
           <button class="img-car-arrow right" id="imgCarNext">&#8594;</button>
           <div class="img-carousel-dots" id="imgCarDots">
             <button class="img-cdot active"></button>
+            <button class="img-cdot"></button>
             <button class="img-cdot"></button>
             <button class="img-cdot"></button>
             <button class="img-cdot"></button>
