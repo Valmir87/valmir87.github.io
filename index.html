@@ -400,7 +400,6 @@
 
     /* ── SCROLL MARQUEE ── */
     .scroll-section {
-      border-top: 1px solid var(--border);
       overflow: hidden;
       flex-shrink: 0;
       margin-top: auto;
@@ -410,10 +409,11 @@
       align-items: baseline;
       justify-content: flex-end;
       gap: 6px;
-      padding: 2px 24px 0;
+      padding: 0 8px 4px;
       opacity: 0.5;
       line-height: 1;
     }
+    .scroll-section .scroll-wrapper { border-top: 1px solid var(--border); }
     .scroll-top-label .s-lbl {
       font-family: 'Syne', sans-serif;
       font-size: 0.48rem;
@@ -430,7 +430,7 @@
     }
     .scroll-section .scroll-wrapper { padding: 10px 0; }
     @media (max-width: 520px) {
-      .scroll-top-label { padding: 1px 14px 0; gap: 5px; }
+      .scroll-top-label { padding: 1px 6px 2px; gap: 5px; }
       .scroll-top-label .s-lbl { font-size: 0.44rem; letter-spacing: 0.1em; }
       .scroll-top-label .s-sub { font-size: 0.5rem; }
     }
@@ -847,8 +847,7 @@
           <h4>Links</h4>
           <a href="Valmir Jashari-Resume.pdf" target="_blank" class="link-btn primary">Resume <span class="arr">↓</span></a>
           <a href="mailto:vjashari@student.ubc.ca" class="link-btn secondary">Get in touch <span class="arr">→</span></a>
-          <p style="margin-top:10px;">587-394-5653</p>
-          <p>vjashari@student.ubc.ca</p>
+          <p style="margin-top:10px;">vjashari@student.ubc.ca</p>
         </div>
 
         <!-- Qualities card -->
@@ -911,8 +910,8 @@
   <!-- Scroll Marquee -->
   <div class="scroll-section">
     <div class="scroll-top-label">
-      <span class="s-lbl">Peer Reviews</span>
-      <span class="s-sub">blind · UBC MECH</span>
+      <span class="s-lbl">Anonymous Peer Reviews</span>
+      <span class="s-sub">UBC MECH</span>
     </div>
     <div class="scroll-wrapper">
       <div class="scroll-track">
