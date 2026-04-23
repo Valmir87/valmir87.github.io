@@ -405,27 +405,43 @@
       flex-shrink: 0;
       margin-top: auto;
     }
-    .scroll-header {
+    .scroll-row {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding-left: 20px;
+    }
+    .scroll-inline-label {
+      flex-shrink: 0;
       display: flex;
       align-items: baseline;
-      justify-content: center;
-      gap: 12px;
-      padding: 10px 16px 2px;
-      flex-wrap: wrap;
+      gap: 8px;
+      padding: 2px 0;
+      border-right: 1px solid var(--border);
+      padding-right: 18px;
     }
-    .scroll-header-label {
+    .scroll-inline-label .s-lbl {
       font-family: 'Syne', sans-serif;
-      font-size: 0.62rem;
+      font-size: 0.55rem;
       font-weight: 700;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--accent);
-    }
-    .scroll-header-sub {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.68rem;
       color: var(--muted);
+      opacity: 0.85;
+    }
+    .scroll-inline-label .s-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.62rem;
+      color: var(--muted);
+      opacity: 0.7;
       letter-spacing: 0.02em;
+    }
+    .scroll-row .scroll-wrapper { flex: 1; min-width: 0; }
+    @media (max-width: 520px) {
+      .scroll-inline-label .s-sub { display: none; }
+      .scroll-row { gap: 10px; padding-left: 12px; }
+      .scroll-inline-label { padding-right: 10px; }
+      .scroll-inline-label .s-lbl { font-size: 0.48rem; letter-spacing: 0.1em; }
     }
     .scroll-wrapper {
       width: 100%;
@@ -903,15 +919,17 @@
 
   <!-- Scroll Marquee -->
   <div class="scroll-section">
-    <div class="scroll-header">
-      <span class="scroll-header-label">Peer Reviews</span>
-      <span class="scroll-header-sub">Blind submissions · UBC MECH teamwork evaluations</span>
-    </div>
+    <div class="scroll-row">
+      <div class="scroll-inline-label">
+        <span class="s-lbl">Peer Reviews</span>
+        <span class="s-sub">blind · UBC MECH</span>
+      </div>
     <div class="scroll-wrapper">
       <div class="scroll-track">
         <span class="scroll-text">"Valmir was always a very strong contributor, often going above and beyond. He took on a leadership role throughout the project during planning meetings with the TA and Instructor. Overall, a very strong teammate and I'd gladly work with him again." — MECH 328 teammate</span><span class="scroll-gap"></span><span class="scroll-text">"Widely considered the leader of the group — a large part of our success is attributed to Val's leadership. Despite a busy term, Val consistently put in work managing the team, finding information, developing solutions and satisfaction criteria. I'm very glad to have Val in the group." — MECH 325 teammate</span><span class="scroll-gap"></span><span class="scroll-text">"Valmir has done an excellent job keeping the team organized and on track, taking initiative to manage our schedule, book meetings, and lead progress updates. His work on the presentation slides was exceptional — very polished and professional — and recognized by Dr Pete and the TAs for standing out." — MECH 328 teammate</span><span class="scroll-gap"></span>
         <span class="scroll-text">"Valmir was always a very strong contributor, often going above and beyond. He took on a leadership role throughout the project during planning meetings with the TA and Instructor. Overall, a very strong teammate and I'd gladly work with him again." — MECH 328 teammate</span><span class="scroll-gap"></span><span class="scroll-text">"Widely considered the leader of the group — a large part of our success is attributed to Val's leadership. Despite a busy term, Val consistently put in work managing the team, finding information, developing solutions and satisfaction criteria. I'm very glad to have Val in the group." — MECH 325 teammate</span><span class="scroll-gap"></span><span class="scroll-text">"Valmir has done an excellent job keeping the team organized and on track, taking initiative to manage our schedule, book meetings, and lead progress updates. His work on the presentation slides was exceptional — very polished and professional — and recognized by Dr Pete and the TAs for standing out." — MECH 328 teammate</span><span class="scroll-gap"></span>
       </div>
+    </div>
     </div>
   </div>
 
