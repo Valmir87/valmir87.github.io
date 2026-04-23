@@ -256,47 +256,57 @@
     .link-btn {
       display: inline-flex !important;
       align-items: center;
-      justify-content: center;
-      gap: 6px;
-      font-family: 'Syne', sans-serif;
+      justify-content: space-between;
+      gap: 8px;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.78rem !important;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 9px 14px;
-      border-radius: 8px;
-      margin-bottom: 8px !important;
-      width: 100%;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      text-transform: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      margin-bottom: 6px !important;
+      width: auto;
       transition: transform 0.18s ease, background 0.2s, border-color 0.2s, color 0.2s;
     }
+    .link-btn .arr { font-size: 0.9em; opacity: 0.7; transition: transform 0.18s ease, opacity 0.2s; }
+    .link-btn:hover .arr { transform: translateX(2px); opacity: 1; }
     .link-btn.primary {
-      background: var(--accent);
+      background: rgba(255,255,255,0.92);
       color: #0d0f12 !important;
-      border: 1px solid var(--accent);
+      border: 1px solid rgba(255,255,255,0.92);
     }
     .link-btn.primary:hover {
-      transform: translateY(-1px);
-      background: #7ac8e0;
-      border-color: #7ac8e0;
+      background: #ffffff;
+      border-color: #ffffff;
       color: #0d0f12 !important;
     }
     .link-btn.secondary {
       background: transparent;
       color: var(--text) !important;
-      border: 1px solid rgba(255,255,255,0.25);
+      border: 1px solid rgba(255,255,255,0.22);
     }
     .link-btn.secondary:hover {
-      transform: translateY(-1px);
-      border-color: var(--accent);
-      color: var(--accent) !important;
+      border-color: rgba(255,255,255,0.55);
+      color: var(--text) !important;
+    }
+    [data-theme="light"] .link-btn.primary {
+      background: #0d0f12;
+      color: #ffffff !important;
+      border-color: #0d0f12;
+    }
+    [data-theme="light"] .link-btn.primary:hover {
+      background: #1a7a9a;
+      border-color: #1a7a9a;
+      color: #ffffff !important;
     }
     [data-theme="light"] .link-btn.secondary {
       color: #0d0f12 !important;
-      border-color: rgba(0,0,0,0.25);
+      border-color: rgba(0,0,0,0.2);
     }
     [data-theme="light"] .link-btn.secondary:hover {
-      border-color: var(--accent);
-      color: var(--accent) !important;
+      border-color: rgba(0,0,0,0.5);
+      color: #0d0f12 !important;
     }
     .info-card p {
       font-size: 0.82rem;
@@ -806,8 +816,8 @@
         <!-- Contact card -->
         <div class="info-card green">
           <h4>Links</h4>
-          <a href="Valmir Jashari-Resume.pdf" target="_blank" class="link-btn primary">Download Resume ↓</a>
-          <a href="mailto:vjashari@student.ubc.ca" class="link-btn secondary">Get in Touch →</a>
+          <a href="Valmir Jashari-Resume.pdf" target="_blank" class="link-btn primary">Resume <span class="arr">↓</span></a>
+          <a href="mailto:vjashari@student.ubc.ca" class="link-btn secondary">Get in touch <span class="arr">→</span></a>
           <p style="margin-top:10px;">587-394-5653</p>
           <p>vjashari@student.ubc.ca</p>
         </div>
@@ -873,8 +883,8 @@
   <div class="scroll-section">
     <div class="scroll-wrapper">
       <div class="scroll-track">
-        <span class="scroll-text">"Valmir was always a very strong contributor, often going above and beyond. He took on a leadership role throughout the project during planning meetings with the TA and Instructor. Overall, a very strong teammate and I'd gladly work with him again."</span><span class="scroll-gap"></span><span class="scroll-text">"Widely considered the leader of the group — a large part of our success is attributed to Val's leadership. Despite a busy term, Val consistently put in work managing the team, finding information, developing solutions and satisfaction criteria. I'm very glad to have Val in the group."</span><span class="scroll-gap"></span><span class="scroll-text">"Valmir has done an excellent job keeping the team organized and on track, taking initiative to manage our schedule, book meetings, and lead progress updates. His work on the presentation slides was exceptional — very polished and professional — and recognized by Dr Pete and the TAs for standing out."</span><span class="scroll-gap"></span>
-        <span class="scroll-text">"Valmir was always a very strong contributor, often going above and beyond. He took on a leadership role throughout the project during planning meetings with the TA and Instructor. Overall, a very strong teammate and I'd gladly work with him again."</span><span class="scroll-gap"></span><span class="scroll-text">"Widely considered the leader of the group — a large part of our success is attributed to Val's leadership. Despite a busy term, Val consistently put in work managing the team, finding information, developing solutions and satisfaction criteria. I'm very glad to have Val in the group."</span><span class="scroll-gap"></span><span class="scroll-text">"Valmir has done an excellent job keeping the team organized and on track, taking initiative to manage our schedule, book meetings, and lead progress updates. His work on the presentation slides was exceptional — very polished and professional — and recognized by Dr Pete and the TAs for standing out."</span><span class="scroll-gap"></span>
+        <span class="scroll-text">"Valmir was always a very strong contributor, often going above and beyond. He took on a leadership role throughout the project during planning meetings with the TA and Instructor. Overall, a very strong teammate and I'd gladly work with him again." — MECH 328 teammate</span><span class="scroll-gap"></span><span class="scroll-text">"Widely considered the leader of the group — a large part of our success is attributed to Val's leadership. Despite a busy term, Val consistently put in work managing the team, finding information, developing solutions and satisfaction criteria. I'm very glad to have Val in the group." — MECH 325 teammate</span><span class="scroll-gap"></span><span class="scroll-text">"Valmir has done an excellent job keeping the team organized and on track, taking initiative to manage our schedule, book meetings, and lead progress updates. His work on the presentation slides was exceptional — very polished and professional — and recognized by Dr Pete and the TAs for standing out." — MECH 328 teammate</span><span class="scroll-gap"></span>
+        <span class="scroll-text">"Valmir was always a very strong contributor, often going above and beyond. He took on a leadership role throughout the project during planning meetings with the TA and Instructor. Overall, a very strong teammate and I'd gladly work with him again." — MECH 328 teammate</span><span class="scroll-gap"></span><span class="scroll-text">"Widely considered the leader of the group — a large part of our success is attributed to Val's leadership. Despite a busy term, Val consistently put in work managing the team, finding information, developing solutions and satisfaction criteria. I'm very glad to have Val in the group." — MECH 325 teammate</span><span class="scroll-gap"></span><span class="scroll-text">"Valmir has done an excellent job keeping the team organized and on track, taking initiative to manage our schedule, book meetings, and lead progress updates. His work on the presentation slides was exceptional — very polished and professional — and recognized by Dr Pete and the TAs for standing out." — MECH 328 teammate</span><span class="scroll-gap"></span>
       </div>
     </div>
   </div>
