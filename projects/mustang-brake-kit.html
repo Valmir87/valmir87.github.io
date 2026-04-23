@@ -290,6 +290,33 @@
       border-radius: 0;
       border: none;
     }
+    .img-carousel-slide.drawing-slide {
+      background: #f6f6f4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px 22px;
+    }
+    .img-carousel-slide.drawing-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: transparent;
+      filter: drop-shadow(0 2px 10px rgba(0,0,0,0.08));
+    }
+    .img-carousel-slide.drawing-slide::after {
+      content: attr(data-caption);
+      position: absolute;
+      bottom: 10px;
+      left: 14px;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6b6b6b;
+      pointer-events: none;
+    }
     .img-carousel-dots {
       position: absolute;
       bottom: 28px;
@@ -610,7 +637,7 @@
           <div class="slide-heading">Adapter system &amp; caliper bracket</div>
           <div class="slide-body">
             <p>With an accurate spindle model in SolidWorks, I moved on to the adapter system. I worked through several iterations to land on a clean offset alignment between the spindle and the rotor.</p>
-            <p>I designed the caliper bracket to wrap cleanly around the existing spindle geometry. Under braking load, the design achieved a safety factor of <strong>6+ at the hub-to-rotor connection</strong> and <strong>12+ at the caliper mount</strong>.</p>
+            <p>I designed the caliper bracket to wrap cleanly around the existing spindle geometry. Under braking, the tangential reaction force from the rotor transfers into the caliper mount as <strong>shear on the mounting bolts</strong> with a moment that puts sections of the bracket into local tension and compression — the design held a <strong>12+ safety factor against yield</strong> at the caliper mount under this load case. At the hub-to-rotor interface, braking torque is resisted by <strong>shear on the wheel studs</strong> (clamping preload from the lug nuts transmits most of the load through face friction, with the studs backing it up), holding a <strong>6+ safety factor</strong>.</p>
           </div>
         </div>
         <div class="slide-image">
@@ -628,7 +655,7 @@
           <div class="slide-label">04 — The Hiccup</div>
           <div class="slide-heading">Caliper too large for 16" wheel</div>
           <div class="slide-body">
-            <p>Near the end of the project I caught that the caliper we initially selected was too large to clear the original 16" Mustang wheel. With finals and other deliverables stacking up, it would have been easy to hand in what we already had.</p>
+            <p>Near the end of the project we caught that the caliper we initially selected was too large to clear the original 16" Mustang wheel. With finals and other deliverables stacking up, it would have been easy to hand in what we already had.</p>
             <p>Instead, I rallied the team to take the fix on so the capstone would reflect the standard of work we actually wanted to stand behind. We downsized to a standard caliper spec, which I 3D scanned and reverse engineered into an exact SolidWorks model so the mounting geometry could be reworked to hold equivalent braking performance inside the wheel clearance.</p>
           </div>
         </div>
@@ -652,6 +679,12 @@
         </div>
         <div class="slide-image img-carousel-wrap">
           <div class="img-carousel-track" id="imgCarTrack">
+            <div class="img-carousel-slide drawing-slide" data-caption="Caliper Mount · GD&amp;T">
+              <img src="../images/mustang-drawing-bracket.png" alt="Caliper mount GD&T drawing detail">
+            </div>
+            <div class="img-carousel-slide drawing-slide" data-caption="Brake Hub · GD&amp;T">
+              <img src="../images/mustang-drawing-hub.png" alt="Brake hub GD&T drawing detail">
+            </div>
             <div class="img-carousel-slide">
               <img src="../images/mustang-prototype-desk.jpg" alt="Prototype parts">
             </div>
@@ -666,6 +699,8 @@
           <button class="img-car-arrow right" id="imgCarNext">&#8594;</button>
           <div class="img-carousel-dots" id="imgCarDots">
             <button class="img-cdot active"></button>
+            <button class="img-cdot"></button>
+            <button class="img-cdot"></button>
             <button class="img-cdot"></button>
             <button class="img-cdot"></button>
           </div>
