@@ -411,7 +411,7 @@
     .bottom-strip {
       flex-shrink: 0;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       border-top: 1px solid var(--border);
     }
     .spec-item {
@@ -520,7 +520,7 @@
       .dot { width: 6px; }
       .dot.active { height: 16px; }
 
-      .bottom-strip { grid-template-columns: repeat(4, 1fr); }
+      .bottom-strip { grid-template-columns: repeat(3, 1fr); }
       .spec-item { padding: 6px 10px; border-right: 1px solid var(--border); }
       .spec-item:last-child { border-right: none; }
       .spec-value { font-size: 0.9rem; }
@@ -531,23 +531,22 @@
       /* Each slide stacks text on top, image below */
       .slide {
         grid-template-columns: 1fr;
-        grid-template-rows: minmax(0, 1.35fr) minmax(0, 0.85fr);
+        grid-template-rows: minmax(0, 1.3fr) minmax(0, 0.9fr);
         overflow: hidden;
       }
       .slide-text {
         border-right: none;
         border-bottom: 1px solid var(--border);
-        padding: 14px 16px;
+        padding: 10px 14px;
         justify-content: flex-start;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
+        overflow-y: hidden;
         min-height: 0;
       }
-      .slide-label { font-size: 0.58rem; margin-bottom: 6px; }
-      .slide-heading { font-size: 1.1rem; margin-bottom: 8px; line-height: 1.15; }
-      .slide-body { font-size: 0.78rem; line-height: 1.55; }
-      .slide-body p { margin-bottom: 8px; }
-      .slide-image { padding: 10px 14px; min-height: 0; overflow: hidden; }
+      .slide-label { font-size: 0.55rem; margin-bottom: 4px; }
+      .slide-heading { font-size: 0.95rem; margin-bottom: 6px; line-height: 1.1; }
+      .slide-body { font-size: 0.72rem; line-height: 1.4; }
+      .slide-body p { margin-bottom: 6px; }
+      .slide-image { padding: 8px 12px; min-height: 0; overflow: hidden; }
       .slide-image img { max-width: 100%; max-height: 100%; min-height: 0; }
 
       /* Smaller image grids */
@@ -560,7 +559,7 @@
       .dot.active { height: 22px; }
 
       /* Bottom strip — compact on mobile */
-      .bottom-strip { grid-template-columns: repeat(4, 1fr); }
+      .bottom-strip { grid-template-columns: repeat(3, 1fr); }
       .spec-item { padding: 3px 6px; border-right: 1px solid var(--border); }
       .spec-item:last-child { border-right: none; }
       .spec-value { font-size: 0.68rem; margin-bottom: 0; }
@@ -594,7 +593,7 @@
       </div>
       <div class="meta-item">
         <span class="meta-label">Team</span>
-        <span class="meta-value">4 Members · 14 Weeks</span>
+        <span class="meta-value">4 Members · Class Project</span>
       </div>
     </div>
   </div>
@@ -675,7 +674,7 @@
           <div class="slide-label">05 — Final Results</div>
           <div class="slide-heading">Prototype &amp; drawings</div>
           <div class="slide-body">
-            <p>I produced the full set of manufacturing-ready drawings and the validated assembly that show a clear upgrade path from the factory drum setup, built around readily available aftermarket components to keep the kit cost-effective for classic Mustang owners.</p>
+            <p>I produced the full set of manufacturing-ready drawings and the validated assembly, showing a clear upgrade path from the factory drum setup using readily available aftermarket components.</p>
             <p>Our team was recognized as one of the top in the class, and the final presentation we delivered is now being used as a reference example for incoming students.</p>
             <a href="../files/mustang-drawings-final.pdf" download style="display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-family:'Syne',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.06em;color:var(--accent);text-decoration:none;border:1px solid rgba(90,184,212,0.3);border-radius:6px;padding:6px 14px;transition:background 0.2s,border-color 0.2s;" onmouseover="this.style.background='rgba(90,184,212,0.1)';this.style.borderColor='rgba(90,184,212,0.55)'" onmouseout="this.style.background='';this.style.borderColor='rgba(90,184,212,0.3)'">↓ Drawing Set (PDF)</a>
           </div>
@@ -734,12 +733,8 @@
       <div class="spec-label">Caliper Mount Safety Factor</div>
     </div>
     <div class="spec-item">
-      <div class="spec-value">14</div>
-      <div class="spec-label">Week Capstone Timeline</div>
-    </div>
-    <div class="spec-item">
-      <div class="spec-value">4</div>
-      <div class="spec-label">Team Members</div>
+      <div class="spec-value">&lt;$450</div>
+      <div class="spec-label">Total Build Cost</div>
     </div>
   </div>
 
