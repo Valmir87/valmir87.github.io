@@ -989,9 +989,10 @@
     @media (max-width: 860px) {
       .project-link--gallery { display: flex; }
     }
-    @media (max-width: 520px) {
+    @media (max-width: 600px) {
+      .gal-stream { overflow: hidden; }
       .gal-photo {
-        height: 130px;
+        height: 120px;
       }
       .gal-lb-img {
         max-width: 92vw;
@@ -1540,6 +1541,13 @@
     const galDurations = [68,74,70,65,76,67,72,69,75,66,71,68,73,70,75,66,77,69,72,67];
     const stream = document.getElementById('gal-stream');
 
+    const isMobile = window.innerWidth <= 600;
+    // Mobile: tighter top range so no overflow, faster durations
+    const mobTops      = [12,38,55,22,45,10,50,28,42,18,52,32];
+    const mobDurations = [42,46,40,44,48,41,45,43,47,42,46,44];
+    // First 4 mobile photos get negative delays so they're already mid-screen on open
+    const mobInitDelays = [-28, -14, -5, 0];
+
     function shuffle(arr) {
       const a = [...arr];
       for (let i = a.length - 1; i > 0; i--) {
@@ -1554,9 +1562,15 @@
       const total = files.length;
 
       files.forEach((file, i) => {
-        const top = galTops[i % galTops.length];
-        const dur = galDurations[i % galDurations.length];
-        const del = i * 6;
+        const top = isMobile
+          ? mobTops[i % mobTops.length]
+          : galTops[i % galTops.length];
+        const dur = isMobile
+          ? mobDurations[i % mobDurations.length]
+          : galDurations[i % galDurations.length];
+        const del = isMobile
+          ? (i < mobInitDelays.length ? mobInitDelays[i] : (i - mobInitDelays.length + 1) * 5)
+          : i * 6;
 
         const wrap = document.createElement('div');
         wrap.className = 'gal-wrap';
@@ -1576,19 +1590,18 @@
         wrap.appendChild(img);
         stream.appendChild(wrap);
 
-        // When this photo finishes, remove it and check if cycle is done
         wrap.addEventListener('animationend', () => {
           wrap.remove();
           completed++;
           if (completed === total) {
-            // All shown — reshuffle and start next cycle
             launchCycle(shuffle(galAllPhotos));
           }
         });
       });
     }
 
-    // Kick off first cycle after page has fully loaded — doesn't compete with main content
+    // Build gallery immediately on mobile (user tapped in — show fast)
+    // On desktop defer 1.5s so page content loads first
     let galReady = false;
     function startGallery() {
       if (!galReady) {
@@ -1596,10 +1609,12 @@
         launchCycle(shuffle(galAllPhotos));
       }
     }
-    if (document.readyState === 'complete') {
-      setTimeout(startGallery, 1500);
+    if (isMobile) {
+      if (document.readyState === 'complete') startGallery();
+      else window.addEventListener('load', startGallery);
     } else {
-      window.addEventListener('load', () => setTimeout(startGallery, 1500));
+      if (document.readyState === 'complete') setTimeout(startGallery, 1500);
+      else window.addEventListener('load', () => setTimeout(startGallery, 1500));
     }
 
     function closeLightbox() {
