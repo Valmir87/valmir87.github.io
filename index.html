@@ -941,8 +941,11 @@
       width: 100%; height: 45%;
       opacity: 0;
       transition: opacity 1.4s ease 0.6s;
+      transform: scale(1.6);
+      transform-origin: center top;
     }
     .gal-birds.visible { opacity: 1; }
+    .gal-birds path { stroke-width: 1.8 !important; }
     .gal-bird-group {
       animation: gal-bird-drift linear infinite;
     }
@@ -990,17 +993,57 @@
       .project-link--gallery { display: flex; }
     }
     @media (max-width: 600px) {
-      .gal-stream { overflow: hidden; }
+      /* Lock overlay to the visible viewport, no scroll, no overflow */
+      .gallery-overlay {
+        height: 100dvh;
+        max-height: 100dvh;
+        overflow: hidden;
+      }
+      .gal-stream {
+        overflow: hidden;
+        height: 100dvh;
+      }
       .gal-photo {
-        height: 120px;
+        height: 105px;
       }
       .gal-lb-img {
         max-width: 92vw;
         max-height: 60vh;
       }
-      .gallery-label { font-size: 0.55rem; }
-      .gal-copyright { font-size: 0.55rem; letter-spacing: 0.06em; }
-      .gallery-close, .gal-lb-close { font-size: 1rem; padding: 4px 9px; }
+      .gallery-label { font-size: 0.55rem; top: 14px; }
+      /* Close button pinned to visible viewport corner, always visible */
+      .gallery-close {
+        position: fixed;
+        top: 12px;
+        right: 12px;
+        font-size: 1rem;
+        padding: 4px 9px;
+        z-index: 950;
+      }
+      .gal-lb-close {
+        position: fixed;
+        top: 12px;
+        right: 12px;
+        font-size: 1rem;
+        padding: 4px 9px;
+        z-index: 950;
+      }
+      /* Copyright pinned to bottom of visible viewport */
+      .gal-copyright {
+        position: fixed;
+        bottom: 10px;
+        font-size: 0.55rem;
+        letter-spacing: 0.05em;
+        gap: 10px;
+        z-index: 25;
+      }
+      /* Bigger, more visible birds on mobile */
+      .gal-birds {
+        height: 55%;
+        transform: scale(1.8);
+        transform-origin: center top;
+      }
+      .gal-birds path { stroke-width: 1.8 !important; }
     }
 
     /* ── GALLERY LIGHT MODE ── */
@@ -1040,7 +1083,7 @@
       border-color: rgba(0,0,0,0.08);
     }
 
-    /* Copyright line */
+    /* Copyright line + audio controls */
     .gal-copyright {
       position: absolute;
       bottom: 14px;
@@ -1052,11 +1095,94 @@
       letter-spacing: 0.1em;
       color: rgba(255,255,255,0.22);
       white-space: nowrap;
-      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 14px;
     }
     [data-theme="light"] .gal-copyright {
       color: rgba(0,0,0,0.28);
     }
+    .gal-audio-ctrls {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      pointer-events: auto;
+    }
+    .gal-audio-btn {
+      width: 14px;
+      height: 14px;
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      position: relative;
+      opacity: 0.55;
+      transition: opacity 0.2s;
+    }
+    .gal-audio-btn:hover { opacity: 1; }
+    /* Play triangle (default) */
+    .gal-audio-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 0;
+      height: 0;
+      border-left: 7px solid currentColor;
+      border-top: 4px solid transparent;
+      border-bottom: 4px solid transparent;
+      color: rgba(255,255,255,0.7);
+    }
+    [data-theme="light"] .gal-audio-btn::before { color: rgba(0,0,0,0.55); }
+    /* Pause bars */
+    .gal-audio-btn.playing::before {
+      width: 3px;
+      height: 9px;
+      border: none;
+      background: rgba(255,255,255,0.7);
+      box-shadow: 6px 0 0 rgba(255,255,255,0.7);
+    }
+    [data-theme="light"] .gal-audio-btn.playing::before {
+      background: rgba(0,0,0,0.55);
+      box-shadow: 6px 0 0 rgba(0,0,0,0.55);
+    }
+
+    /* Minimalist volume slider */
+    .gal-vol {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 58px;
+      height: 2px;
+      background: rgba(255,255,255,0.18);
+      border-radius: 1px;
+      outline: none;
+      cursor: pointer;
+      opacity: 0.55;
+      transition: opacity 0.2s;
+    }
+    .gal-vol:hover { opacity: 1; }
+    [data-theme="light"] .gal-vol { background: rgba(0,0,0,0.18); }
+    .gal-vol::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.75);
+      border: none;
+      cursor: pointer;
+    }
+    [data-theme="light"] .gal-vol::-webkit-slider-thumb { background: rgba(0,0,0,0.6); }
+    .gal-vol::-moz-range-thumb {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.75);
+      border: none;
+      cursor: pointer;
+    }
+    [data-theme="light"] .gal-vol::-moz-range-thumb { background: rgba(0,0,0,0.6); }
 
     /* ── LIGHTBOX ── */
     .gal-lightbox {
@@ -1172,7 +1298,7 @@
         <!-- Contact card -->
         <div class="info-card green">
           <h4>Links</h4>
-          <a href="Valmir-Jashari-Resume.pdf" target="_blank" rel="noopener" download class="link-btn primary">Resume <span class="arr">↓</span></a>
+          <a href="Valmir-Jashari-Resume.pdf" target="_blank" rel="noopener" class="link-btn primary">Resume <span class="arr">↗</span></a>
           <a href="mailto:vjashari@student.ubc.ca" class="link-btn secondary">Get in touch <span class="arr">→</span></a>
           <p style="margin-top:10px;">vjashari@student.ubc.ca</p>
         </div>
@@ -1193,7 +1319,6 @@
           <h4>Focus</h4>
           <ul class="tag-list">
             <li>Automotive</li>
-            <li>Prototyping</li>
             <li>Manufacturing</li>
             <li>Product Design</li>
           </ul>
@@ -1435,8 +1560,14 @@
     <!-- Photos injected + shuffled by JS on every visit -->
     <div class="gal-stream" id="gal-stream"></div>
 
-    <!-- Copyright -->
-    <div class="gal-copyright">© Valmir Jashari &nbsp;·&nbsp; Fuji X-T3 &nbsp;·&nbsp; Raw, Unedited</div>
+    <!-- Copyright + minimal audio controls -->
+    <div class="gal-copyright">
+      <span>© Valmir Jashari &nbsp;·&nbsp; Fuji X-T3 &nbsp;·&nbsp; Raw, Unedited</span>
+      <span class="gal-audio-ctrls">
+        <button class="gal-audio-btn" id="gal-play-btn" aria-label="Play / pause"></button>
+        <input class="gal-vol" id="gal-vol" type="range" min="0" max="100" value="30" aria-label="Volume">
+      </span>
+    </div>
 
     <!-- Lightbox: clicked photo expands here, stream keeps moving behind the blur -->
     <div class="gal-lightbox" id="gal-lightbox">
@@ -1500,6 +1631,7 @@
       galBirds.classList.remove('visible');
       galleryOverlay.classList.add('open');
       document.body.classList.add('gallery-open');
+      playGalleryAudio();
       setTimeout(() => {
         galleryLabel.classList.add('visible');
         galBirds.classList.add('visible');
@@ -1510,6 +1642,7 @@
       closeLightbox();
       galleryOverlay.classList.remove('open');
       document.body.classList.remove('gallery-open');
+      stopGalleryAudio();
       galleryResetTimer = setTimeout(() => {
         galleryLabel.classList.remove('visible');
         galBirds.classList.remove('visible');
@@ -1597,6 +1730,109 @@
         });
       });
     }
+
+    // ── BACKGROUND AUDIO ──
+    // Drop MP3s into /audio/ and add filenames here.
+    // One random track is picked per visit.
+    const galPlaylist = [
+      'track1.mp3',
+      'track2.mp3',
+      'track3.mp3',
+      'track4.mp3',
+      'track5.mp3',
+      'track7.mp3',
+      'track8.mp3'
+    ];
+    // Pick a track — exclude the last 2 played (stored in localStorage)
+    let galRecent = [];
+    try {
+      galRecent = JSON.parse(localStorage.getItem('galRecentTracks') || '[]');
+    } catch(e) {}
+    let galCandidates = galPlaylist.filter(t => !galRecent.includes(t));
+    if (galCandidates.length === 0) galCandidates = galPlaylist; // fallback if all excluded
+    const galPickedTrack = galCandidates[Math.floor(Math.random() * galCandidates.length)];
+    // Remember it (keep last 2)
+    galRecent.unshift(galPickedTrack);
+    galRecent = galRecent.slice(0, 2);
+    try { localStorage.setItem('galRecentTracks', JSON.stringify(galRecent)); } catch(e) {}
+
+    const galAudio = new Audio();
+    galAudio.src = `audio/${galPickedTrack}`;
+    galAudio.loop = false;
+    galAudio.volume = 0;
+    galAudio.preload = 'auto';
+
+    function fadeAudio(targetVol, duration = 4000) {
+      const start = galAudio.volume;
+      const diff  = targetVol - start;
+      const steps = 30;
+      const stepTime = duration / steps;
+      let i = 0;
+      const id = setInterval(() => {
+        i++;
+        galAudio.volume = Math.max(0, Math.min(1, start + diff * (i / steps)));
+        if (i >= steps) {
+          clearInterval(id);
+          if (targetVol === 0) galAudio.pause();
+        }
+      }, stepTime);
+    }
+
+    let galAudioDelayTimer;
+    // Max effective volume cap — slider 100 maps to this
+    const galMaxVol = 0.07;
+    let galTargetVol = 0.018;
+    let galUserPaused = false;
+
+    function playGalleryAudio() {
+      clearTimeout(galAudioDelayTimer);
+      // Delay 4.5s so user has time to settle in before music starts
+      galAudioDelayTimer = setTimeout(() => {
+        if (galUserPaused) return;
+        galAudio.play().then(() => fadeAudio(galTargetVol, 9500))
+          .catch(() => { /* autoplay blocked */ });
+      }, 4500);
+    }
+    function stopGalleryAudio() {
+      clearTimeout(galAudioDelayTimer);
+      fadeAudio(0, 1200);
+    }
+
+    // Reset state when track ends naturally (no loop)
+    galAudio.addEventListener('ended', () => {
+      galAudio.currentTime = 0;
+      updatePlayBtn();
+    });
+
+    // Play / pause button + volume slider
+    const galPlayBtn = document.getElementById('gal-play-btn');
+    const galVolSlider = document.getElementById('gal-vol');
+
+    function updatePlayBtn() {
+      galPlayBtn.classList.toggle('playing', !galAudio.paused);
+    }
+    galAudio.addEventListener('play',  updatePlayBtn);
+    galAudio.addEventListener('pause', updatePlayBtn);
+
+    galPlayBtn.addEventListener('click', () => {
+      if (galAudio.paused) {
+        galUserPaused = false;
+        clearTimeout(galAudioDelayTimer);
+        galAudio.play().then(() => {
+          // If volume was 0 (still pre-fade), nudge to target instantly
+          if (galAudio.volume < 0.05) galAudio.volume = galTargetVol;
+        }).catch(() => {});
+      } else {
+        galUserPaused = true;
+        clearTimeout(galAudioDelayTimer);
+        galAudio.pause();
+      }
+    });
+
+    galVolSlider.addEventListener('input', e => {
+      galTargetVol = (e.target.value / 100) * galMaxVol;
+      galAudio.volume = galTargetVol;
+    });
 
     // Preload all gallery images in the background after page loads
     // so they're cached and ready when user opens the gallery
