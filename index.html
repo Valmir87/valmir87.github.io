@@ -855,6 +855,15 @@
       transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1),
                   opacity   0.55s ease;
     }
+    /* Lock background scroll when gallery is open */
+    body.gallery-open {
+      overflow: hidden !important;
+      height: 100dvh !important;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+    }
 
     /* Close button */
     .gallery-close {
@@ -1298,7 +1307,7 @@
         <!-- Contact card -->
         <div class="info-card green">
           <h4>Links</h4>
-          <a href="Valmir-Jashari-Resume.pdf" target="_blank" rel="noopener" class="link-btn primary">Resume <span class="arr">↗</span></a>
+          <a href="Valmir-Jashari-Resume.pdf" target="_blank" rel="noopener" class="link-btn primary">Resume</a>
           <a href="mailto:vjashari@student.ubc.ca" class="link-btn secondary">Get in touch <span class="arr">→</span></a>
           <p style="margin-top:10px;">vjashari@student.ubc.ca</p>
         </div>
@@ -1631,6 +1640,7 @@
       galBirds.classList.remove('visible');
       galleryOverlay.classList.add('open');
       document.body.classList.add('gallery-open');
+      startGallery();   // build + animate photos now (only the first time)
       playGalleryAudio();
       setTimeout(() => {
         galleryLabel.classList.add('visible');
@@ -1834,12 +1844,14 @@
       galAudio.volume = galTargetVol;
     });
 
-    // Preload all gallery images in the background after page loads
-    // so they're cached and ready when user opens the gallery
+    // Preload all gallery images in the background after page loads.
+    // Keep references in an array so the browser doesn't GC them.
+    const galPreloadedImgs = [];
     function preloadGallery() {
       galAllPhotos.forEach(file => {
         const img = new Image();
         img.src = `images/gallery/${file}`;
+        galPreloadedImgs.push(img);
       });
     }
 
@@ -1851,17 +1863,9 @@
       }
     }
 
-    function onPageReady() {
-      preloadGallery();   // silently cache all photos in background
-      if (isMobile) {
-        startGallery();   // mobile: build gallery structure immediately
-      } else {
-        setTimeout(startGallery, 1500); // desktop: slight delay, page first
-      }
-    }
-
-    if (document.readyState === 'complete') onPageReady();
-    else window.addEventListener('load', onPageReady);
+    // Preload immediately so by the time user opens gallery, images are cached
+    if (document.readyState === 'complete') preloadGallery();
+    else window.addEventListener('load', preloadGallery);
 
     function closeLightbox() {
       galLightbox.classList.remove('open');
