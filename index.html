@@ -1565,6 +1565,8 @@
         const img = document.createElement('img');
         img.className = 'gal-photo';
         img.src = `images/gallery/${file}`;
+        img.loading = 'lazy';
+        img.decoding = 'async';
         img.alt = '';
         img.addEventListener('click', () => {
           galLbImg.src = img.src;
@@ -1586,8 +1588,19 @@
       });
     }
 
-    // Kick off first cycle with a fresh shuffle
-    launchCycle(shuffle(galAllPhotos));
+    // Kick off first cycle after page has fully loaded — doesn't compete with main content
+    let galReady = false;
+    function startGallery() {
+      if (!galReady) {
+        galReady = true;
+        launchCycle(shuffle(galAllPhotos));
+      }
+    }
+    if (document.readyState === 'complete') {
+      setTimeout(startGallery, 1500);
+    } else {
+      window.addEventListener('load', () => setTimeout(startGallery, 1500));
+    }
 
     function closeLightbox() {
       galLightbox.classList.remove('open');
