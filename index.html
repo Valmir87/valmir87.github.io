@@ -394,6 +394,21 @@
       border-style: dashed;
     }
     .project-link--more:hover { color: var(--text); }
+    .project-link--gallery {
+      font-size: 0.82rem;
+      padding: 7px 18px;
+      color: #c49a4a;
+      border-color: rgba(196,154,74,0.28);
+      border-style: dashed;
+    }
+    .project-link--gallery::before { background: #c49a4a; }
+    .project-link--gallery:hover {
+      color: #d4aa5a;
+      border-color: rgba(196,154,74,0.55);
+      background: rgba(196,154,74,0.06);
+    }
+    .project-link--gallery .project-arrow { color: #c49a4a; opacity: 0.7; }
+    .project-link--gallery:hover .project-arrow { color: #d4aa5a; opacity: 1; }
     .project-tag {
       font-family: 'DM Sans', sans-serif;
       font-size: 0.7rem;
@@ -786,6 +801,310 @@
       .susp-grid { grid-template-columns: repeat(2, 1fr) !important; }
     }
 
+
+    /* ── GALLERY OVERLAY — slides down from above ── */
+    .gallery-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 900;
+      transform: translateY(-100%);
+      transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+    .gallery-overlay.open { transform: translateY(0); }
+
+    /* Very subtle sky atmosphere at the top */
+    .gallery-overlay::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 35%;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.028) 0%, transparent 100%);
+      pointer-events: none;
+    }
+    /* Minimal cloud wisps — barely there */
+    .gallery-overlay::after {
+      content: '';
+      position: absolute;
+      top: 8%; left: 15%;
+      width: 55%; height: 120px;
+      background: radial-gradient(ellipse, rgba(255,255,255,0.045) 0%, transparent 70%);
+      filter: blur(30px);
+      pointer-events: none;
+    }
+
+    /* Smooth base transition on page sections (for return animation) */
+    .hero-banner, .split-header, .main-grid, .scroll-section {
+      transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity   0.55s ease;
+    }
+
+    /* Page content drifts down + fades when gallery opens */
+    .gallery-open .hero-banner,
+    .gallery-open .split-header,
+    .gallery-open .main-grid,
+    .gallery-open .scroll-section {
+      transform: translateY(48px);
+      opacity: 0;
+      transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity   0.55s ease;
+    }
+
+    /* Close button */
+    .gallery-close {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      z-index: 20;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 10px;
+      color: rgba(255,255,255,0.7);
+      cursor: pointer;
+      font-size: 1.2rem;
+      line-height: 1;
+      padding: 5px 10px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .gallery-close:hover {
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+    }
+
+    /* Gallery label */
+    .gallery-label {
+      position: absolute;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+      opacity: 0;
+      transition: opacity 1s ease;
+      white-space: nowrap;
+    }
+    .gallery-label.visible { opacity: 1; }
+
+    /* ── ATMOSPHERE: clouds + birds ── */
+    .gal-atmosphere {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .gal-cloud {
+      position: absolute;
+      border-radius: 50%;
+      background: #fff;
+      filter: blur(55px);
+    }
+    /* Each cloud drifts at its own pace */
+    .gal-cloud.gc1 {
+      width: 600px; height: 150px;
+      top: 8%; left: 5%;
+      opacity: 0.048;
+      animation: gal-cloud-drift 90s linear infinite;
+    }
+    .gal-cloud.gc2 {
+      width: 380px; height: 100px;
+      top: 18%; left: 62%;
+      opacity: 0.038;
+      animation: gal-cloud-drift 120s linear infinite 30s;
+    }
+    .gal-cloud.gc3 {
+      width: 280px; height: 80px;
+      top: 3%; left: 40%;
+      opacity: 0.03;
+      animation: gal-cloud-drift 75s linear infinite 15s;
+    }
+    @keyframes gal-cloud-drift {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-18vw); }
+    }
+
+    /* Bird silhouettes — tiny SVG lines */
+    .gal-birds {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 45%;
+      opacity: 0;
+      transition: opacity 1.4s ease 0.6s;
+    }
+    .gal-birds.visible { opacity: 1; }
+    .gal-bird-group {
+      animation: gal-bird-drift linear infinite;
+    }
+    @keyframes gal-bird-drift {
+      from { transform: translateX(0px); }
+      to   { transform: translateX(-60px); }
+    }
+
+    /* ── FLOATING PHOTO STREAM ── */
+    .gal-stream {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .gal-wrap {
+      position: absolute;
+      pointer-events: all;
+      animation-fill-mode: backwards;
+    }
+    @keyframes gal-float {
+      from { transform: translateX(-420px); }
+      to   { transform: translateX(110vw);  }
+    }
+    .gal-photo {
+      display: block;
+      height: 190px;
+      aspect-ratio: 3 / 2;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,0.07);
+      box-shadow: 0 8px 36px rgba(0,0,0,0.45);
+      cursor: pointer;
+      transition: filter 0.3s ease, box-shadow 0.3s ease;
+      background: #1a2030;
+    }
+    .gal-photo:hover {
+      filter: brightness(1.12);
+      box-shadow: 0 12px 48px rgba(0,0,0,0.65);
+    }
+
+    /* ── GALLERY MOBILE ── */
+    @media (max-width: 860px) {
+      .project-link--gallery { display: flex; }
+    }
+    @media (max-width: 520px) {
+      .gal-photo {
+        height: 130px;
+      }
+      .gal-lb-img {
+        max-width: 92vw;
+        max-height: 60vh;
+      }
+      .gallery-label { font-size: 0.55rem; }
+      .gal-copyright { font-size: 0.55rem; letter-spacing: 0.06em; }
+      .gallery-close, .gal-lb-close { font-size: 1rem; padding: 4px 9px; }
+    }
+
+    /* ── GALLERY LIGHT MODE ── */
+    [data-theme="light"] .gallery-label {
+      color: rgba(0,0,0,0.3);
+    }
+    [data-theme="light"] .gallery-close,
+    [data-theme="light"] .gal-lb-close {
+      background: rgba(0,0,0,0.06);
+      border-color: rgba(0,0,0,0.12);
+      color: rgba(0,0,0,0.5);
+    }
+    [data-theme="light"] .gallery-close:hover,
+    [data-theme="light"] .gal-lb-close:hover {
+      background: rgba(0,0,0,0.12);
+      color: rgba(0,0,0,0.85);
+    }
+    [data-theme="light"] .gal-cloud {
+      background: rgba(0,0,0,1);
+      opacity: 0.025;
+    }
+    [data-theme="light"] .gal-birds path {
+      stroke: rgba(0,0,0,0.25);
+    }
+    [data-theme="light"] .gal-photo {
+      border-color: rgba(0,0,0,0.08);
+      box-shadow: 0 8px 36px rgba(0,0,0,0.15);
+    }
+    [data-theme="light"] .gal-photo:hover {
+      box-shadow: 0 12px 48px rgba(0,0,0,0.25);
+    }
+    [data-theme="light"] .gal-lightbox {
+      background: rgba(255,255,255,0.55);
+    }
+    [data-theme="light"] .gal-lb-img {
+      box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+      border-color: rgba(0,0,0,0.08);
+    }
+
+    /* Copyright line */
+    .gal-copyright {
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.22);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    [data-theme="light"] .gal-copyright {
+      color: rgba(0,0,0,0.28);
+    }
+
+    /* ── LIGHTBOX ── */
+    .gal-lightbox {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .gal-lightbox.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .gal-lb-img {
+      max-width: 72vw;
+      max-height: 72vh;
+      border-radius: 14px;
+      object-fit: contain;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.7);
+      border: 1px solid rgba(255,255,255,0.1);
+      transform: scale(0.92);
+      transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+    .gal-lightbox.open .gal-lb-img {
+      transform: scale(1);
+    }
+    .gal-lb-close {
+      position: absolute;
+      top: 16px; right: 18px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 10px;
+      color: rgba(255,255,255,0.7);
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 5px 10px;
+      line-height: 1;
+      transition: background 0.2s, color 0.2s;
+      z-index: 11;
+    }
+    .gal-lb-close:hover { background: rgba(255,255,255,0.2); color: #fff; }
+
     /* ── PAGE TRANSITIONS ── */
     @keyframes pageFadeIn {
       from { opacity: 0; transform: translateY(8px); }
@@ -909,6 +1228,11 @@
         <div class="project-link mini-projects-toggle project-link--more" id="miniToggle">
           &amp; More
           <span class="project-arrow">→</span>
+        </div>
+
+        <div class="project-link project-link--gallery" id="galleryProjectBtn">
+          Life in Pics
+          <span class="project-arrow">↑</span>
         </div>
 
       </div>
@@ -1066,6 +1390,61 @@
     </div>
   </div>
 
+  <!-- ════════════════════════════════════════
+       GALLERY OVERLAY — "Life in Pics"
+       Drop your photos into images/gallery/
+       named photo-1.jpg … photo-10.jpg
+       ════════════════════════════════════════ -->
+  <div id="gallery-overlay" class="gallery-overlay">
+
+    <button class="gallery-close" id="gallery-close">×</button>
+    <div class="gallery-label" id="gallery-label">Life in Pics</div>
+
+    <!-- Clouds + bird silhouettes -->
+    <div class="gal-atmosphere">
+      <div class="gal-cloud gc1"></div>
+      <div class="gal-cloud gc2"></div>
+      <div class="gal-cloud gc3"></div>
+
+      <!-- Bird lines: simple paired wing curves, scattered in upper sky -->
+      <svg class="gal-birds" id="gal-birds" viewBox="0 0 1440 320" preserveAspectRatio="xMidYMid meet" fill="none">
+        <g class="gal-bird-group" style="animation-duration:55s;animation-delay:0s;">
+          <path d="M120,62 C124,56 130,56 134,62 C138,56 144,56 148,62" stroke="rgba(255,255,255,0.18)" stroke-width="1.3" stroke-linecap="round"/>
+          <path d="M138,70 C141,65 146,65 149,70 C152,65 157,65 160,70" stroke="rgba(255,255,255,0.11)" stroke-width="1.1" stroke-linecap="round"/>
+        </g>
+        <g class="gal-bird-group" style="animation-duration:80s;animation-delay:-20s;">
+          <path d="M460,38 C465,31 472,31 477,38 C482,31 489,31 494,38" stroke="rgba(255,255,255,0.15)" stroke-width="1.4" stroke-linecap="round"/>
+          <path d="M480,50 C484,44 490,44 494,50 C498,44 504,44 508,50" stroke="rgba(255,255,255,0.09)" stroke-width="1.1" stroke-linecap="round"/>
+          <path d="M500,42 C503,37 508,37 511,42 C514,37 519,37 522,42" stroke="rgba(255,255,255,0.1)"  stroke-width="1"   stroke-linecap="round"/>
+        </g>
+        <g class="gal-bird-group" style="animation-duration:100s;animation-delay:-40s;">
+          <path d="M820,28 C823,23 827,23 830,28 C833,23 837,23 840,28" stroke="rgba(255,255,255,0.12)" stroke-width="1"   stroke-linecap="round"/>
+          <path d="M835,36 C837,32 841,32 843,36 C845,32 849,32 851,36" stroke="rgba(255,255,255,0.08)" stroke-width="0.9" stroke-linecap="round"/>
+        </g>
+        <g class="gal-bird-group" style="animation-duration:65s;animation-delay:-10s;">
+          <path d="M1100,55 C1104,49 1110,49 1114,55 C1118,49 1124,49 1128,55" stroke="rgba(255,255,255,0.14)" stroke-width="1.2" stroke-linecap="round"/>
+          <path d="M1115,66 C1118,61 1123,61 1126,66 C1129,61 1134,61 1137,66" stroke="rgba(255,255,255,0.09)" stroke-width="1"   stroke-linecap="round"/>
+        </g>
+        <g class="gal-bird-group" style="animation-duration:90s;animation-delay:-55s;">
+          <path d="M300,14 C303,9 308,9 311,14 C314,9 319,9 322,14" stroke="rgba(255,255,255,0.1)" stroke-width="0.9" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Photos injected + shuffled by JS on every visit -->
+    <div class="gal-stream" id="gal-stream"></div>
+
+    <!-- Copyright -->
+    <div class="gal-copyright">© Valmir Jashari &nbsp;·&nbsp; Fuji X-T3 &nbsp;·&nbsp; Raw, Unedited</div>
+
+    <!-- Lightbox: clicked photo expands here, stream keeps moving behind the blur -->
+    <div class="gal-lightbox" id="gal-lightbox">
+      <button class="gal-lb-close" id="gal-lb-close">×</button>
+      <img class="gal-lb-img" id="gal-lb-img" src="" alt="">
+    </div>
+
+  </div><!-- /gallery-overlay -->
+
 <script>
     // Page transitions
     document.querySelectorAll('.project-link').forEach(link => {
@@ -1098,7 +1477,125 @@
       if (e.key === 'Escape') {
         miniModal.classList.remove('open');
         miniCooperModal.classList.remove('open');
+        if (galLightbox && galLightbox.classList.contains('open')) closeLightbox();
+        else if (galleryOverlay && galleryOverlay.classList.contains('open')) closeGallery();
       }
+    });
+
+    // ── GALLERY ──────────────────────────────
+    const galleryOverlay = document.getElementById('gallery-overlay');
+    const galleryClose   = document.getElementById('gallery-close');
+    const galBirds       = document.getElementById('gal-birds');
+    const galleryLabel   = document.getElementById('gallery-label');
+    const galLightbox    = document.getElementById('gal-lightbox');
+    const galLbImg       = document.getElementById('gal-lb-img');
+    const galLbClose     = document.getElementById('gal-lb-close');
+    let galleryResetTimer;
+
+    document.getElementById('galleryProjectBtn').addEventListener('click', openGallery);
+    function openGallery() {
+      clearTimeout(galleryResetTimer);
+      galleryLabel.classList.remove('visible');
+      galBirds.classList.remove('visible');
+      galleryOverlay.classList.add('open');
+      document.body.classList.add('gallery-open');
+      setTimeout(() => {
+        galleryLabel.classList.add('visible');
+        galBirds.classList.add('visible');
+      }, 500);
+    }
+
+    function closeGallery() {
+      closeLightbox();
+      galleryOverlay.classList.remove('open');
+      document.body.classList.remove('gallery-open');
+      galleryResetTimer = setTimeout(() => {
+        galleryLabel.classList.remove('visible');
+        galBirds.classList.remove('visible');
+      }, 750);
+    }
+
+    galleryClose.addEventListener('click', closeGallery);
+
+    // ── GALLERY QUEUE — no repeats until all shown ──
+    const galAllPhotos = [
+      'DSCF9914.JPG','DSCF2011.JPG','DSCF9871.JPG','DSCF6905.JPG',
+      'DSCF6914.JPG','DSCF0703.JPG','DSCF9802.JPG','DSCF9811.JPG',
+      'DSCF9939.JPG','DSCF6941.JPG','DSCF0728.JPG','DSCF6954.JPG',
+      'DSCF2035.JPG','DSCF6985.JPG','DSCF7000.JPG','DSCF0737.JPG',
+      'DSCF7018.JPG','DSCF9944.JPG','DSCF4896.JPG','DSCF9828.JPG',
+      'DSCF4905.JPG','DSCF4190.JPG','DSCF4957.JPG','DSCF2148.JPG',
+      'DSCF7161.JPG','DSCF2185.JPG','DSCF5506.JPG','DSCF5509.JPG',
+      'DSCF5816.JPG','DSCF6072.JPG','DSCF6130.JPG','DSCF6140.JPG',
+      'DSCF6153.JPG','DSCF5660.JPG','DSCF5661.JPG','DSCF2063.JPG',
+      'DSCF2089.JPG','DSCF7882.JPG','DSCF8039.JPG','DSCF8077.JPG',
+      'DSCF3671.JPG','DSCF3695.JPG','DSCF3705.JPG','DSCF3724.JPG',
+      'DSCF6520.JPG','DSCF3741.JPG','DSCF0482.JPG','DSCF0435.JPG',
+      'DSCF0162.JPG','DSCF0152.JPG','DSCF8549.JPG','DSCF9572.JPG',
+      'DSCF9594.JPG','DSCF9632.JPG','DSCF9634.JPG','DSCF9640.JPG',
+      'DSCF9660.JPG','DSCF9679.JPG','DSCF3266.JPG','DSCF3271.JPG',
+      'DSCF6847.JPG','DSCF6861.JPG','DSCF6869.JPG'
+    ];
+    const galTops      = [30,52,18,62,38,22,55,42,14,66,35,58,24,48,20,60,40,28,50,70];
+    const galDurations = [68,74,70,65,76,67,72,69,75,66,71,68,73,70,75,66,77,69,72,67];
+    const stream = document.getElementById('gal-stream');
+
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function launchCycle(files) {
+      let completed = 0;
+      const total = files.length;
+
+      files.forEach((file, i) => {
+        const top = galTops[i % galTops.length];
+        const dur = galDurations[i % galDurations.length];
+        const del = i * 6;
+
+        const wrap = document.createElement('div');
+        wrap.className = 'gal-wrap';
+        wrap.style.cssText = `top:${top}%;animation:gal-float ${dur}s linear ${del}s 1 backwards;`;
+
+        const img = document.createElement('img');
+        img.className = 'gal-photo';
+        img.src = `images/gallery/${file}`;
+        img.alt = '';
+        img.addEventListener('click', () => {
+          galLbImg.src = img.src;
+          galLightbox.classList.add('open');
+        });
+
+        wrap.appendChild(img);
+        stream.appendChild(wrap);
+
+        // When this photo finishes, remove it and check if cycle is done
+        wrap.addEventListener('animationend', () => {
+          wrap.remove();
+          completed++;
+          if (completed === total) {
+            // All shown — reshuffle and start next cycle
+            launchCycle(shuffle(galAllPhotos));
+          }
+        });
+      });
+    }
+
+    // Kick off first cycle with a fresh shuffle
+    launchCycle(shuffle(galAllPhotos));
+
+    function closeLightbox() {
+      galLightbox.classList.remove('open');
+      setTimeout(() => { galLbImg.src = ''; }, 350);
+    }
+    galLbClose.addEventListener('click', e => { e.stopPropagation(); closeLightbox(); });
+    galLightbox.addEventListener('click', e => {
+      if (e.target === galLightbox) closeLightbox();
     });
   </script>
 
